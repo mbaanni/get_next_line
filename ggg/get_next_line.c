@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 15:58:46 by mbaanni           #+#    #+#             */
-/*   Updated: 2022/11/04 17:41:14 by mbaanni          ###   ########.fr       */
+/*   Updated: 2022/11/04 19:58:18 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ char	*read_line(int fd, char *line)
 	{
 		i = read(fd, buf, BUFFER_SIZE);
 		buf[i] = 0;
+		if (!buf[0] && !line)
+			return (0);
 		line = ft_strjoin(line, buf);
-		if (*line == 0)
-			return (NULL);
 		if (!line)
 			return (0);
 	}
@@ -97,12 +97,9 @@ char	*get_next_line(int fd)
 // int main()
 // {
 // 	int fd = open("file", O_RDONLY);
-// 	int i = 0;
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
-// 	printf("%s", get_next_line(fd));
 
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
+// 	printf("%s", get_next_line(fd));
 // 	return (0);
 // }
