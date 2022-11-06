@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbaanni <mbaanni@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/06 09:55:03 by mbaanni           #+#    #+#             */
+/*   Updated: 2022/11/06 18:21:45 by mbaanni          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 char	*get_next_line(int fd)
@@ -22,6 +34,7 @@ char	*read_line(int fd, char *buf)
 	int		i;
 
 	i = 1;
+	str[0] = 0;
 	while (i && ft_strchr(str))
 	{
 		i = read(fd, str, BUFFER_SIZE);
@@ -30,7 +43,7 @@ char	*read_line(int fd, char *buf)
 			i = 0;
 			if (buf)
 			{
-				while(buf[i])
+				while (buf[i])
 				{
 					buf[i] = 0;
 					i++;
@@ -39,9 +52,19 @@ char	*read_line(int fd, char *buf)
 			return (0);
 		}
 		str[i] = 0;
-		buf = ft_strjoin(buf, str);
+		buf = ft_strjoin(buf, str, 1);
 	}
 	return (buf);
+}
+
+int	lent(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i] && line[i] != '\n')
+		i++;
+	return (i);
 }
 
 char	*to_ret(char *line)
@@ -49,16 +72,13 @@ char	*to_ret(char *line)
 	char	*newline;
 	int		i;
 
-	i = 0;
-	while (line[i] && line[i] != '\n')
-		i++;
+	i = lent(line);
 	if (line[i] == '\n')
 		i++;
 	if (i == 0)
-	{
-		free(line);
+		free (line);
+	if (i == 0)
 		return (0);
-	}
 	newline = (char *)malloc(sizeof(char) * (i + 1));
 	if (!newline)
 		return (0);
@@ -69,10 +89,7 @@ char	*to_ret(char *line)
 		i++;
 	}
 	if (line[i] == '\n')
-	{
-		newline[i] = '\n';
-		i++;
-	}
+		newline[i++] = '\n';
 	newline[i] = 0;
 	free(line);
 	return (newline);
