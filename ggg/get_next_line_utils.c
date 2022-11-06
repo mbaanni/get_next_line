@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 15:56:23 by mbaanni           #+#    #+#             */
-/*   Updated: 2022/11/04 16:03:02 by mbaanni          ###   ########.fr       */
+/*   Updated: 2022/11/06 08:52:01 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,36 +22,33 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-char	*ft_strjoin(char *line, char *buf)
+char	*ft_strjoin(char *buf, char *str)
 {
 	char	*newline;
 	int		i;
 	int		j;
 
 	i = 0;
-	if (!line)
-	{
-		line = malloc(sizeof(char) * 1);
-		*line = '\0';
-	}
 	if (!buf)
 	{
-		free(line);
-		return (0);
+		buf = malloc(sizeof(char) * 1);
+		if (!buf)
+			return (0);
+		*buf = 0;
 	}
-	newline = malloc(sizeof(char) * (ft_strlen(line) + ft_strlen(buf) + 1));
+	newline = malloc(sizeof(char) * (ft_strlen(buf) + ft_strlen(str) + 1));
 	if (!newline)
 		return (0);
-	while (line[i])
+	while (buf[i])
 	{
-		newline[i] = line[i];
+		newline[i] = buf[i];
 		i++;
 	}
 	j = 0;
-	while (buf[j])
-		newline[i++] = buf[j++];
+	while (str[j])
+		newline[i++] = str[j++];
 	newline[i] = 0;
-	free(line);
+	free (buf);
 	return (newline);
 }
 
@@ -60,7 +57,7 @@ int	ft_strchr(char *buf)
 	int	i;
 
 	i = 0;
-	if (!buf)
+	if (buf == 0)
 		return (1);
 	while (buf[i])
 	{
