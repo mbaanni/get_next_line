@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 15:56:23 by mbaanni           #+#    #+#             */
-/*   Updated: 2022/11/06 19:36:47 by mbaanni          ###   ########.fr       */
+/*   Updated: 2022/11/07 09:05:35 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*ft_calloc(int i, int size)
 {
 	char	*ptr;
-	
+
 	ptr = malloc(size * i);
 	if (!ptr)
 		return (0);
@@ -33,7 +33,7 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-char	*ft_strjoin(char *buf, char *str, int del)
+char	*ft_strjoin(char *buf, char *str)
 {
 	char	*newline;
 	int		i;
@@ -47,7 +47,7 @@ char	*ft_strjoin(char *buf, char *str, int del)
 	newline = malloc(sizeof(char) * (ft_strlen(buf) + ft_strlen(str) + 1));
 	if (!newline)
 		return (0);
-	while (buf != 0 && buf[i])
+	while (buf[i])
 	{
 		newline[i] = buf[i];
 		i++;
@@ -56,21 +56,20 @@ char	*ft_strjoin(char *buf, char *str, int del)
 	while (str[j])
 		newline[i++] = str[j++];
 	newline[i] = 0;
-	if (del)
-		free(buf);
+	free(buf);
 	return (newline);
 }
 
-int	ft_strchr(char *buf)
+int	ft_strchr(char *str)
 {
 	int	i;
 
 	i = 0;
-	if (buf == 0)
+	if (str[0] == 0)
 		return (1);
-	while (buf[i])
+	while (str[i])
 	{
-		if (buf[i] == '\n')
+		if (str[i] == '\n')
 			return (0);
 		i++;
 	}

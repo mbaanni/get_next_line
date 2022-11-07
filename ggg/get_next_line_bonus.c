@@ -6,25 +6,37 @@
 /*   By: mbaanni <mbaanni@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/06 11:06:14 by mbaanni           #+#    #+#             */
-/*   Updated: 2022/11/06 20:16:23 by mbaanni          ###   ########.fr       */
+/*   Updated: 2022/11/07 18:26:33 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-#include<stdio.h>
+
 char	*get_next_line(int fd)
 {
-	static char	*buf;
+	int			i;
+	static char	*buf[OPEN_MAX];
 	char		*line;
 
-	line = 0;
-	if (fd < 0 || BUFFER_SIZE == 0)
-		return (0);
-	line = read_line(fd, buf);
+	i = 0;
+	line = read_line(fd, buf[fd]);
 	if (line == 0)
-	 	return (0);
-	buf = to_keep(line);
-	line = to_ret(line);
+		return (0);
+	buf[fd] = to_keep(line);
+	if (line[i] == 0)
+	{
+		free(line);
+		return (0);
+	}
+	while (line[i])
+	{
+		if (line[i] == '\n')
+		{
+			if (line[i + 1])
+				line[i + 1] = 0;
+		}
+		i++;
+	}
 	return (line);
 }
 
@@ -35,11 +47,9 @@ char	*read_line(int fd, char *buf)
 
 	i = 1;
 	*str = 0;
-	buf = 0;
 	while (i && ft_strchr(str))
 	{
 		i = read(fd, str, BUFFER_SIZE);
-		i = 0;
 		if (i < 0)
 		{
 			i = 0;
@@ -49,47 +59,9 @@ char	*read_line(int fd, char *buf)
 			return (0);
 		}
 		str[i] = 0;
-		buf = ft_strjoin(buf, str, 1);
+		buf = ft_strjoin(buf, str);
 	}
 	return (buf);
-}
-
-int	lent(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i] && line[i] != '\n')
-		i++;
-	return (i);
-}
-
-char	*to_ret(char *line)
-{
-	char	*newline;
-	int		i;
-
-	i = lent(line);
-	if (line[i] == '\n')
-		i++;
-	if (i == 0)
-		free (line);
-	if (i == 0)
-		return (0);
-	newline = (char *)malloc(sizeof(char) * (i + 1));
-	if (!newline)
-		return (0);
-	i = 0;
-	while (line[i] && line[i] != '\n')
-	{
-		newline[i] = line[i];
-		i++;
-	}
-	if (line[i] == '\n')
-		newline[i++] = '\n';
-	newline[i] = 0;
-	free(line);
-	return (newline);
 }
 
 char	*to_keep(char *line)
@@ -114,16 +86,4 @@ char	*to_keep(char *line)
 		buf[j++] = line[i++];
 	buf[j] = 0;
 	return (buf);
-}
-#include<stdio.h>
-int main()
-{
-	int fd = open("file", O_RDONLY);
-	int fd1 = open("file1", O_RDONLY);
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd1));
-	printf("%s", get_next_line(fd1));
-	
-	return (0);
 }

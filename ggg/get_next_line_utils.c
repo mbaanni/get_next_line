@@ -6,7 +6,7 @@
 /*   By: mbaanni <mbaanni@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 15:56:23 by mbaanni           #+#    #+#             */
-/*   Updated: 2022/11/06 15:24:11 by mbaanni          ###   ########.fr       */
+/*   Updated: 2022/11/07 08:48:07 by mbaanni          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-char	*ft_strjoin(char *buf, char *str, int del)
+char	*ft_strjoin(char *buf, char *str)
 {
 	char	*newline;
 	int		i;
@@ -56,8 +56,7 @@ char	*ft_strjoin(char *buf, char *str, int del)
 	while (str[j])
 		newline[i++] = str[j++];
 	newline[i] = 0;
-	if (del)
-		free(buf);
+	free(buf);
 	return (newline);
 }
 
